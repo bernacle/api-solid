@@ -1,5 +1,6 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { compare } from 'bcryptjs'
+import exp from 'constants'
 import { expect, describe, it } from 'vitest'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { RegisterUseCase } from './register'
@@ -40,5 +41,17 @@ describe('Register Use Case', () => {
         password: '123456',
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should be able to register', async () => {
+    const registerUseCase = new RegisterUseCase(new InMemoryUsersRepository())
+
+    const { user } = await registerUseCase.execute({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+    })
+
+    expect(user.id).toEqual(expect.any(String))
   })
 })
