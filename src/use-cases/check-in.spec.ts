@@ -9,17 +9,17 @@ let gymsRepository: InMemoryGymsRepository
 let sut: CheckinUseCase
 
 describe('Register Use Case', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkInsRepository = new InMemoryCheckInsRepository()
     gymsRepository = new InMemoryGymsRepository()
     sut = new CheckinUseCase(checkInsRepository, gymsRepository)
 
-    gymsRepository.items.push({
+    await gymsRepository.create({
       id: 'gym-01',
       title: 'Gym js',
       description: 'Description',
-      latitude: new Decimal(-27.2092052),
-      longitude: new Decimal(-49.4889672),
+      latitude: -27.2092052,
+      longitude: -49.4889672,
       phone: '',
     })
 
